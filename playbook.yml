@@ -1,0 +1,20 @@
+- hosts: all
+  tasks:
+    - name: Copy build script
+      become: True
+      become_method: doas
+      copy:
+        src: create_install.fs.sh
+        dest: "/usr/local/bin/create_install.fs.sh"
+        mode: 0755
+        owner: root
+        group: wheel
+    - name: Copy authorized_keys
+      become: True
+      become_method: doas
+      copy:
+        src: authorized_keys
+        dest: "/home/vagrant/authorized_keys"
+        mode: 0644
+        owner: vagrant
+        group: vagrant
