@@ -98,6 +98,7 @@ create_autoinstall() {
 	# This script will configure insecure passwords
 	cat >"$1" <<-_END_
 	System hostname = openbsd
+	Public ssh key for root account = $(cat authorized_keys)
 	Password for root = $PASSWORD
 	Allow root ssh login = yes
 	Setup a user = $UNPRIVUSER
