@@ -37,7 +37,7 @@ MIRROR="https://cdn.openbsd.org/pub/OpenBSD/$VER"
 # Unprivileged user 
 UNPRIVUSER="vagrant"
 # Default password
-PASSWORD="vagrant"
+INSTALL_FS_PASSWORD="vagrant"
 # Version to setup (without dot for some commands)
 SVER="$(echo $VER | tr -d '.')"
 # If true, compress the image
@@ -99,10 +99,10 @@ create_autoinstall() {
 	cat >"$1" <<-_END_
 	System hostname = openbsd
 	Public ssh key for root account = $(cat authorized_keys)
-	Password for root = $PASSWORD
+	Password for root = $INSTALL_FS_PASSWORD
 	Allow root ssh login = yes
 	Setup a user = $UNPRIVUSER
-	Password for user = $PASSWORD
+	Password for user = $INSTALL_FS_PASSWORD
 	Public ssh key for user vagrant = $(cat authorized_keys)
 	What timezone are you in = UTC
 	Location of sets = http
@@ -112,6 +112,10 @@ create_autoinstall() {
 	Use (W)hole disk MBR, whole disk (G)PT, (O)penBSD area or (E)dit? = W
 	_END_
 }
+
+if test "x$PASSWORD" != "x"; then
+	INSTALL_FS_PASSWORD="$PASSWORD"
+fi
 
 doas mkdir -p "$IMAGE_MOUNTPOINT" "$BSD_MOUNTPOINT"
 
