@@ -43,7 +43,7 @@ SVER="$(echo $VER | tr -d '.')"
 # If true, compress the image
 do_ZIP=true
 
-set -eu
+set -e
 
 check_or_install() {
 	[ -e "/usr/local/bin/$1" ] || doas pkg_add "$1"
