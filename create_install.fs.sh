@@ -45,6 +45,15 @@ do_ZIP=true
 
 set -e
 
+get_extension_type() {
+	# From OpenBSD 6.8 the image is called .img
+	if [ "$1" -ge "68" ]; then
+		echo "img"
+	else
+		echo "fs"
+	fi
+}
+
 check_or_install() {
 	[ -e "/usr/local/bin/$1" ] || doas pkg_add "$1"
 }
@@ -119,11 +128,13 @@ fi
 
 doas mkdir -p "$IMAGE_MOUNTPOINT" "$BSD_MOUNTPOINT"
 
+EXTENSION="$(get_extension_type "$SVER")"
+
 # If we don't have an http client install it
 check_or_install "${HTTP_CLIENT}"
 
 # Download install filesystem
-check_or_download "${MIRROR}/${ARCH}/install$SVER.fs"
+check_or_download "${MIRROR}/${ARCH}/install$SVER.${EXTENSION}"
 
 cp "install$SVER.fs" "install$SVER.mod.fs"
 create_autoinstall "$AUTOINSTALL"
