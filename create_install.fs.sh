@@ -136,7 +136,7 @@ check_or_install "${HTTP_CLIENT}"
 # Download install filesystem
 check_or_download "${MIRROR}/${ARCH}/install$SVER.${EXTENSION}"
 
-cp "install$SVER.fs" "install$SVER.mod.fs"
+cp "install$SVER.${EXTENSION}" "install$SVER.mod.fs"
 create_autoinstall "$AUTOINSTALL"
 
 mount_installfs "$(pwd)/install$SVER.mod.fs" "$IMAGE_MOUNTPOINT"
