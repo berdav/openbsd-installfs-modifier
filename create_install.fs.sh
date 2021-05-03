@@ -141,11 +141,17 @@ create_autoinstall "$AUTOINSTALL"
 
 mount_installfs "$(pwd)/install$SVER.mod.fs" "$IMAGE_MOUNTPOINT"
 
+
 # Update the autoinstall file
 echo "Updating bsd.rd"
 doas cp "/bsd.rd" "/tmp/bsd.rd"
+# From OpenBSD 6.9, the bsd.rd is not an ELF but a gzipped ELF.
+if test "$SVER" -ge 69; then
+	doas mv "/tmp/bsd.rd" "/tmp/bsd.rd.gz"
+	doas gunzip /tmp/bsd.rd.gz
+fi
 # Change the root path
-doas rdsetroot -x "/bsd.rd" >"/tmp/bsd.fs"
+doas rdsetroot -x "/tmp/bsd.rd" >"/tmp/bsd.fs"
 mount_installfs "/tmp/bsd.fs" "$BSD_MOUNTPOINT"
 
 doas cp "$AUTOINSTALL" "$BSD_MOUNTPOINT/auto_install.conf"
