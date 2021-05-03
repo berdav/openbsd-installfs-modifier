@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "berdav/openbsd6.8"
+  config.vm.box = "berdav/openbsd6.9"
   config.ssh.shell = "/bin/ksh"
   config.ssh.sudo_command = "/usr/bin/doas %c"
 
